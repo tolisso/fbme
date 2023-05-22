@@ -18,7 +18,7 @@ class FbNetworkConverter(
 
 
     // returns additional FBTypeDeclarations of variables
-    fun fillNetwork(network: FBNetwork): List<FBTypeDeclaration> {
+    fun fillNetwork(network: FBNetwork) {
 
         // blocks with assignments
         val assignments = networkEventConverter
@@ -52,8 +52,6 @@ class FbNetworkConverter(
         val dataConnectionDtos = connections.filter { it.type == EntryKind.DATA }
         val dataConnections = createDataConnections(dataConnectionDtos, blockNameToPosition)
         network.dataConnections.addAll(dataConnections)
-
-        return emptyList()
     }
 
     private fun createDataConnections(

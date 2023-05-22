@@ -6,7 +6,7 @@ import org.fbme.ide.iec61499.repository.PlatformElement
 import org.fbme.ide.iec61499.repository.PlatformElementsOwner
 import org.fbme.ide.iec61499.repository.PlatformRepository
 import org.fbme.ide.platform.projectWizard.Iec61499ProjectTemplate
-import org.fbme.integration.nxt.importer.TmpParseTest
+import org.fbme.lib.iec61131.converter.ProjectConverter
 import org.jetbrains.mps.openapi.model.SModel
 import org.jetbrains.mps.openapi.persistence.PersistenceFacade
 
@@ -44,7 +44,7 @@ class Iec61131ImportProjectTemplate : Iec61499ProjectTemplate(
     private fun readModel(path: String, model: SModel) {
         val owner = PlatformElementsOwner();
 
-        TmpParseTest.test(owner.iec61499Factory, owner.stFactory, path)
+        ProjectConverter(owner.iec61499Factory, owner.stFactory).getProjectNodes(path)
             .map { (it as PlatformElement).node }
             .forEach { model.addRootNode(it) }
     }
