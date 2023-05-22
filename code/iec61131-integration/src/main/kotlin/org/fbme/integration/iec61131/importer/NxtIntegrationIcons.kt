@@ -1,4 +1,4 @@
-package fbme.integration.nxt
+package org.fbme.integration.iec61131.importer
 
 import com.intellij.openapi.util.IconLoader
 

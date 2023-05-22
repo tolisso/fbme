@@ -1,4 +1,4 @@
-package org.fbme.integration.nxt.importer
+package org.fbme.integration.iec61131.importer
 
 import org.fbme.lib.common.StringIdentifier
 import org.fbme.lib.iec61499.IEC61499Factory

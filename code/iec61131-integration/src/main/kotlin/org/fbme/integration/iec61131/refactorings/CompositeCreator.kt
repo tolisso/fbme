@@ -1,6 +1,7 @@
-package org.fbme.integration.nxt.refactorings
+package org.fbme.integration.iec61131.refactorings
 
 import org.fbme.ide.iec61499.repository.PlatformElement
+import org.fbme.integration.nxt.refactorings.DeclarationExtractor
 import org.fbme.lib.common.CompositeReference
 import org.fbme.lib.common.Declaration
 import org.fbme.lib.common.Reference

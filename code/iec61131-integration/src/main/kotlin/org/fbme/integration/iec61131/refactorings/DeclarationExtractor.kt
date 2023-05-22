@@ -1,5 +1,8 @@
 package org.fbme.integration.nxt.refactorings
 
+import org.fbme.integration.iec61131.refactorings.CoordinateShift
+import org.fbme.integration.iec61131.refactorings.PortPathNetworkCoordinates
+import org.fbme.integration.iec61131.refactorings.Type
 import org.fbme.lib.common.Declaration
 import org.fbme.lib.iec61499.declarations.EventDeclaration
 import org.fbme.lib.iec61499.declarations.ParameterDeclaration

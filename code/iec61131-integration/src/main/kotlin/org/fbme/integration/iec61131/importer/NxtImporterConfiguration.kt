@@ -1,4 +1,4 @@
-package org.fbme.integration.nxt.importer
+package org.fbme.integration.iec61131.importer
 
 import org.fbme.ide.iec61499.repository.PlatformElementsOwner
 import org.fbme.ide.platform.converter.PlatformConverter.DefaultConfigurationFactory

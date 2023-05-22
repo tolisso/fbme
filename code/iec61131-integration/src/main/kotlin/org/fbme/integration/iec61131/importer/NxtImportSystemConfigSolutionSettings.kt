@@ -1,4 +1,4 @@
-package org.fbme.integration.nxt.importer
+package org.fbme.integration.iec61131.importer
 
 import com.intellij.ide.util.BrowseFilesListener
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
@@ -20,7 +20,7 @@ class NxtImportSystemConfigSolutionSettings(defaultName: String) :
     protected var nxtImportLocationDocListenerEnabled = true
 
     init {
-        this.add(JLabel("Nxt import location:"), 4, 0.0)
+        this.add(JLabel("IEC61131 file:"), 4, 0.0)
         nxtImportLocation = JTextField()
         nxtImportLocation.name = "Path"
         nxtImportLocation.document.addDocumentListener(object : DocumentAdapter() {
@@ -30,9 +30,9 @@ class NxtImportSystemConfigSolutionSettings(defaultName: String) :
                 }
             }
         })
-        val descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor()
+        val descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
         InsertPathAction.addTo(nxtImportLocation, descriptor)
-        val listener = BrowseFilesListener(nxtImportLocation, "Choose Module File Parent Directory", "", descriptor)
+        val listener = BrowseFilesListener(nxtImportLocation, "Choose IEC61131 project xml file", "", descriptor)
         val fieldPanel = FieldPanel(nxtImportLocation, null, null, listener, EmptyRunnable.getInstance())
         FileChooserFactory.getInstance().installFileCompletion(fieldPanel.textField, descriptor, false, null)
         this.add(fieldPanel, 5, 0.0, JBUI.insetsBottom(5))
