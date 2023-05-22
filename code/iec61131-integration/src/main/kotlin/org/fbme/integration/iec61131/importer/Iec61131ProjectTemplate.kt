@@ -5,26 +5,23 @@ import jetbrains.mps.smodel.ModelImports
 import org.fbme.ide.iec61499.repository.PlatformElement
 import org.fbme.ide.iec61499.repository.PlatformElementsOwner
 import org.fbme.ide.iec61499.repository.PlatformRepository
-import org.fbme.ide.platform.converter.PlatformConverter
 import org.fbme.ide.platform.projectWizard.Iec61499ProjectTemplate
 import org.fbme.integration.nxt.importer.TmpParseTest
 import org.jetbrains.mps.openapi.model.SModel
-import org.jetbrains.mps.openapi.model.SNode
 import org.jetbrains.mps.openapi.persistence.PersistenceFacade
-import java.util.*
 
 
-class NxtImportProjectTemplate : Iec61499ProjectTemplate(
-    NxtImportSystemConfigSolutionSettings("NewModel"),
-    "IEC61131 project",
+class Iec61131ImportProjectTemplate : Iec61499ProjectTemplate(
+    Iec61131ImportLocationConfig("NewModel"),
+    "IEC61131 Project",
     "Convert IEC61131 project to IEC61499 FBME project",
-    NxtIntegrationIcons.importProject,
+    Iec61131IntegrationIcons.importProject,
     null
 ) {
 
     override fun initModel(repository: PlatformRepository, model: SModel): PlatformElement {
-        val settings = settings as NxtImportSystemConfigSolutionSettings
-        val iec61131ProjectLocation = settings.getNxtImportLocation()
+        val settings = settings as Iec61131ImportLocationConfig
+        val iec61131ProjectLocation = settings.getImportLocation()
         addModelImports(model)
 
         readModel(iec61131ProjectLocation, model)
@@ -45,17 +42,10 @@ class NxtImportProjectTemplate : Iec61499ProjectTemplate(
 
 
     private fun readModel(path: String, model: SModel) {
-        getRootNodes(path).forEach { model.addRootNode(it) }
-    }
-
-    private fun getRootNodes(nxtImportFile: String): List<SNode> {
         val owner = PlatformElementsOwner();
 
-        val resultNodes = ArrayList<SNode>();
-
-        for (fbtd in TmpParseTest.test(owner.iec61499Factory, owner.stFactory, nxtImportFile)) {
-            resultNodes.add((fbtd as PlatformElement).node);
-        }
-        return resultNodes;
+        TmpParseTest.test(owner.iec61499Factory, owner.stFactory, path)
+            .map { (it as PlatformElement).node }
+            .forEach { model.addRootNode(it) }
     }
 }

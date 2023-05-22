@@ -17,6 +17,6 @@
   </extensions>
 
   <extensions defaultExtensionNs="fbme.platform">
-    <iec61499projectTemplate implementation="org.fbme.integration.iec61131.importer.NxtImportProjectTemplate" />
+    <iec61499projectTemplate implementation="org.fbme.integration.iec61131.importer.Iec61131ImportProjectTemplate" />
   </extensions>
 </idea-plugin>
