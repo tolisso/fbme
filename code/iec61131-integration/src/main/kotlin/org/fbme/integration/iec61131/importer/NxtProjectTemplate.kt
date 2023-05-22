@@ -5,6 +5,7 @@ import jetbrains.mps.smodel.ModelImports
 import org.fbme.ide.iec61499.repository.PlatformElement
 import org.fbme.ide.iec61499.repository.PlatformElementsOwner
 import org.fbme.ide.iec61499.repository.PlatformRepository
+import org.fbme.ide.platform.converter.PlatformConverter
 import org.fbme.ide.platform.projectWizard.Iec61499ProjectTemplate
 import org.fbme.integration.nxt.importer.TmpParseTest
 import org.jetbrains.mps.openapi.model.SModel
@@ -15,11 +16,12 @@ import java.util.*
 
 class NxtImportProjectTemplate : Iec61499ProjectTemplate(
     NxtImportSystemConfigSolutionSettings("NewModel"),
-    "Import IEC61131 project",
-    "Import project from IEC61131 file",
+    "IEC61131 project",
+    "Convert IEC61131 project to IEC61499 FBME project",
     NxtIntegrationIcons.importProject,
     null
 ) {
+
     override fun initModel(repository: PlatformRepository, model: SModel): PlatformElement {
         val settings = settings as NxtImportSystemConfigSolutionSettings
         val iec61131ProjectLocation = settings.getNxtImportLocation()
@@ -48,11 +50,10 @@ class NxtImportProjectTemplate : Iec61499ProjectTemplate(
 
     private fun getRootNodes(nxtImportFile: String): List<SNode> {
         val owner = PlatformElementsOwner();
-        val configuration = NxtImporterConfiguration.FACTORY.createConfiguration(owner);
 
         val resultNodes = ArrayList<SNode>();
 
-        for (fbtd in TmpParseTest.test(configuration.entryFactory, configuration.stEntryFactory, nxtImportFile)) {
+        for (fbtd in TmpParseTest.test(owner.iec61499Factory, owner.stFactory, nxtImportFile)) {
             resultNodes.add((fbtd as PlatformElement).node);
         }
         return resultNodes;
