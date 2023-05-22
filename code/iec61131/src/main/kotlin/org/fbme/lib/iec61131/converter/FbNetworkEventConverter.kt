@@ -19,7 +19,7 @@ class FbNetworkEventConverter(
     private val varService = FbdVariableService(xmlFbd, xmlInterface, converterArguments)
     private val evaluationOrderService = FbdEvaluationOrderService(xmlFbd, xmlInterface, converterArguments)
     private val inConnectionsService = BlockInConnectionsService(xmlFbd)
-    private val interfaceService = InterfaceService(xmlInterface, converterArguments)
+    private val interfaceService = InterfaceService(xmlInterface)
     val networkConnections: List<NetworkPart>
     private val outputVariables = interfaceService.getInOutVariables() + interfaceService.getOutputVariables()
 

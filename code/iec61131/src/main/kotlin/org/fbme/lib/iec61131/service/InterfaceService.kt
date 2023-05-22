@@ -1,27 +1,24 @@
 package org.fbme.lib.iec61131.service
 
-import org.fbme.lib.iec61131.converter.ConverterArguments
-import org.fbme.lib.iec61131.converter.ConverterBase
 import org.fbme.lib.iec61131.model.OldStandardXml
 
 class InterfaceService(
     private val xmlInterface: OldStandardXml.Interface,
-    converterArguments: ConverterArguments
-) : ConverterBase(converterArguments) {
+) {
 
-    fun getInputVariables(): Set<String> {
+    fun getInputVariables(): List<String> {
         return getVarNames(xmlInterface.inputVars)
     }
 
-    fun getInOutVariables(): Set<String> {
+    fun getInOutVariables(): List<String> {
         return getVarNames(xmlInterface.inOutVars)
     }
 
-    fun getOutputVariables(): Set<String> {
+    fun getOutputVariables(): List<String> {
         return getVarNames(xmlInterface.outputVars)
     }
 
-    private fun getVarNames(varListList: List<OldStandardXml.VariableList>): Set<String> {
-        return HashSet(varListList.map { varList -> varList.variableList.map { it.name } }.flatten())
+    private fun getVarNames(varListList: List<OldStandardXml.VariableList>): List<String> {
+        return varListList.map { varList -> varList.variableList.map { it.name } }.flatten()
     }
 }

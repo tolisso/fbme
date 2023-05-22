@@ -1,7 +1,7 @@
 package org.fbme.lib.iec61131.converter
 
 import org.fbme.lib.iec61131.model.OldStandardXml
-import org.fbme.lib.iec61499.declarations.FBTypeDeclaration
+import org.fbme.lib.iec61131.service.InterfaceService
 import org.fbme.lib.iec61499.fbnetwork.*
 import kotlin.random.Random
 
@@ -15,6 +15,7 @@ class FbNetworkConverter(
 
     private val networkEventConverter =
         FbNetworkEventConverter(xmlFbd, xmlInterface, converterArguments, startEvent, endEvent)
+    private val interfaceService = InterfaceService(xmlInterface)
 
 
     // returns additional FBTypeDeclarations of variables
@@ -128,12 +129,14 @@ class FbNetworkConverter(
 
     private fun getEndpointCoordinates(blocksNumber: Int): Map<String, EndpointCoordinate> {
         val endpointCoordinates = mutableMapOf<String, EndpointCoordinate>()
-        for (i in xmlFbd.inVariableList.indices) {
-            val varName = xmlFbd.inVariableList[i].expression.getText()
+        val inputVariables = interfaceService.getInputVariables() + interfaceService.getInOutVariables()
+        val outputVariables = interfaceService.getOutputVariables() + interfaceService.getInOutVariables()
+        for (i in inputVariables.indices) {
+            val varName = inputVariables[i]
             endpointCoordinates[varName] = createEndpointCoordinate(varName, 0, 100 * (i + 1))
         }
-        for (i in xmlFbd.outVariableList.indices) {
-            val varName = xmlFbd.outVariableList[i].expression.getText()
+        for (i in outputVariables.indices) {
+            val varName = outputVariables[i]
             endpointCoordinates[varName] = createEndpointCoordinate(varName, 500 + (blocksNumber + 3) * 500, 100 * (i + 1))
         }
         endpointCoordinates["REQ"] = createEndpointCoordinate("REQ", 0, 0)
