@@ -1,8 +1,8 @@
 package org.fbme.lib.iec61131.service
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
-class FbdBlockService(xmlFbd: OldStandardXml.FBD) {
+class FbdBlockService(xmlFbd: Iec61131Xml.FBD) {
     private val blockIdToNameMap = xmlFbd.blockList.associate { it.localId to it.getName() }
 
     private val blockIdToType = xmlFbd.blockList.associate { it.localId to it.getType() }

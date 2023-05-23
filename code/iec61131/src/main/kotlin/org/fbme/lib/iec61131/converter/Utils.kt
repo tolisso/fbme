@@ -1,6 +1,6 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.st.types.DataType
 import org.fbme.lib.st.types.ElementaryType
 
@@ -14,7 +14,7 @@ fun getDefaultValue(type: DataType): String {
     }
 }
 
-fun getFbdInfo(xmlPou: OldStandardXml.Pou): FbdInfo {
+fun getFbdInfo(xmlPou: Iec61131Xml.Pou): FbdInfo {
 
     val firstBody = xmlPou.bodyList.getOrNull(0)
         ?: throw Iec61131ConverterException(xmlPou, "pou has no body", null)

@@ -1,14 +1,14 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.iec61499.declarations.EventAssociation
 import org.fbme.lib.iec61499.declarations.FBTypeDeclaration
 import org.fbme.lib.iec61499.declarations.ParameterDeclaration
 import org.fbme.lib.iec61499.parser.STConverter
 
 class FbInterfaceConverter(
-        private val xmlPou: OldStandardXml.Pou,
-        converterArguments: ConverterArguments
+    private val xmlPou: Iec61131Xml.Pou,
+    converterArguments: ConverterArguments
 ) : ConverterBase(converterArguments) {
 
     fun fillInterface(fbtd: FBTypeDeclaration) {
@@ -41,13 +41,13 @@ class FbInterfaceConverter(
         return association
     }
 
-    private fun mapVarListToParameters(varListList: List<OldStandardXml.VariableList>): List<ParameterDeclaration> {
+    private fun mapVarListToParameters(varListList: List<Iec61131Xml.VariableList>): List<ParameterDeclaration> {
         return varListList
             .map { it.variableList.map(::mapVariableToParameter) }
             .flatten()
     }
 
-    private fun mapVariableToParameter(xmlVariable: OldStandardXml.VariableList.Variable): ParameterDeclaration {
+    private fun mapVariableToParameter(xmlVariable: Iec61131Xml.VariableList.Variable): ParameterDeclaration {
         val parameterDeclaration = factory.createParameterDeclaration(null)
         parameterDeclaration.name = xmlVariable.name
         parameterDeclaration.type = STConverter.parseType(stFactory, xmlVariable.type.typeName)

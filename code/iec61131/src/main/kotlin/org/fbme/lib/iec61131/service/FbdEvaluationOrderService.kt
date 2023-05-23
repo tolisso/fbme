@@ -1,11 +1,11 @@
 package org.fbme.lib.iec61131.service
 
 import org.fbme.lib.iec61131.converter.ConverterArguments
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
 class FbdEvaluationOrderService(
-    xmlFbd: OldStandardXml.FBD,
-    xmlInterface: OldStandardXml.Interface,
+    xmlFbd: Iec61131Xml.FBD,
+    xmlInterface: Iec61131Xml.Interface,
     converterArguments: ConverterArguments
 ) {
     private val variableService = FbdVariableService(xmlFbd, xmlInterface, converterArguments)
@@ -49,6 +49,6 @@ class FbdEvaluationOrderService(
     class OutVar(
         val id: Long,
         val name: String,
-        val connection: OldStandardXml.Connection?
+        val connection: Iec61131Xml.Connection?
     ) : ExecutingEntity()
 }

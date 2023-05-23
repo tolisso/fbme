@@ -1,9 +1,9 @@
 package org.fbme.lib.iec61131.service
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
 
-class BlockInConnectionsService(private val fbd: OldStandardXml.FBD) {
+class BlockInConnectionsService(private val fbd: Iec61131Xml.FBD) {
     private val blockInConnections = getBlocksInConnections().groupBy { it.targetBlockId }
 
     fun getBlockInConnections(blockId: Long): List<BlockInConnection> {

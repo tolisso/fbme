@@ -1,6 +1,5 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
 import org.fbme.lib.iec61131.service.InterfaceService
 import org.fbme.lib.iec61499.fbnetwork.*
 import kotlin.random.Random

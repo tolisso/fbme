@@ -1,7 +1,7 @@
 package org.fbme.lib.iec61131.converter
 
 import org.fbme.lib.common.Declaration
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.iec61499.declarations.DeviceDeclaration
 import org.fbme.lib.iec61499.declarations.ResourceDeclaration
 import org.fbme.lib.iec61499.declarations.SystemDeclaration
@@ -12,7 +12,7 @@ import org.fbme.lib.iec61499.parser.STConverter
 import org.fbme.lib.st.expressions.Literal
 
 class SystemConverter(
-    private val xmlProject: OldStandardXml.Project,
+    private val xmlProject: Iec61131Xml.Project,
     private val converterArguments: ConverterArguments
 ) : ConverterBase(converterArguments) {
 

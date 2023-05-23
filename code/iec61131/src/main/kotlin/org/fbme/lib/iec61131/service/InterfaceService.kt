@@ -1,9 +1,9 @@
 package org.fbme.lib.iec61131.service
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
 class InterfaceService(
-    private val xmlInterface: OldStandardXml.Interface,
+    private val xmlInterface: Iec61131Xml.Interface,
 ) {
 
     fun getInputVariables(): List<String> {
@@ -18,7 +18,7 @@ class InterfaceService(
         return getVarNames(xmlInterface.outputVars)
     }
 
-    private fun getVarNames(varListList: List<OldStandardXml.VariableList>): List<String> {
+    private fun getVarNames(varListList: List<Iec61131Xml.VariableList>): List<String> {
         return varListList.map { varList -> varList.variableList.map { it.name } }.flatten()
     }
 }

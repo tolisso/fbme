@@ -2,7 +2,7 @@ package org.fbme.lib.iec61131.converter
 
 import org.fbme.lib.iec61131.model.BlockInfo
 import org.fbme.lib.iec61131.model.DataParameterInfo
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.iec61131.model.oldStandardBocks
 import org.fbme.lib.iec61499.IEC61499Factory
 import org.fbme.lib.st.STFactory
@@ -28,7 +28,7 @@ class ConverterArguments(
     val blocksInterfaceInfo: BlocksInterfaceInfo
 )
 
-class BlocksInterfaceInfo(pous: OldStandardXml.Pous) {
+class BlocksInterfaceInfo(pous: Iec61131Xml.Pous) {
 
     private val typeNameToBlock: Map<String, BlockInfo> =
         (oldStandardBocks + getAdditionalBlockTypes(pous)).associateBy { it.typeName }
@@ -36,19 +36,19 @@ class BlocksInterfaceInfo(pous: OldStandardXml.Pous) {
         return typeNameToBlock[blockTypeName]!!.parameterNameToType.values.toList()
     }
 
-    private fun getAdditionalBlockTypes(pous: OldStandardXml.Pous): List<BlockInfo> {
+    private fun getAdditionalBlockTypes(pous: Iec61131Xml.Pous): List<BlockInfo> {
         return pous.pouList.map { toBlockType(it) }
     }
 
     private val nameToType: Map<String, DataType> = GenericType.values().associateBy { it.name } +
             ElementaryType.values().associateBy { it.name }
 
-    private fun toBlockType(pou: OldStandardXml.Pou): BlockInfo {
+    private fun toBlockType(pou: Iec61131Xml.Pou): BlockInfo {
         val parameters = pou.pouInterface?.outputVars?.toParameters() ?: emptyList()
         return BlockInfo(pou.name, parameters)
     }
 
-    private fun List<OldStandardXml.VariableList>.toParameters(): List<DataParameterInfo> {
+    private fun List<Iec61131Xml.VariableList>.toParameters(): List<DataParameterInfo> {
         return this.map { variableList ->
             variableList.variableList.map { variable ->
                 val typeStr = variable.type.typeName

@@ -1,6 +1,6 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
 class Iec61131ConverterException(message: String, cause: Throwable?) : RuntimeException(message, cause) {
 
@@ -8,7 +8,7 @@ class Iec61131ConverterException(message: String, cause: Throwable?) : RuntimeEx
         "Exception while processing pou [$pouName]: $message", cause
     )
 
-    constructor(xmlPou: OldStandardXml.Pou, message: String, cause: Throwable?) : this(xmlPou.name, message, cause)
+    constructor(xmlPou: Iec61131Xml.Pou, message: String, cause: Throwable?) : this(xmlPou.name, message, cause)
 
     constructor(pouName: String, message: String) : this(pouName, message, null)
 

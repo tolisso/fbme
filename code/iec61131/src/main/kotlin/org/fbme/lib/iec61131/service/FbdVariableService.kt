@@ -3,27 +3,27 @@ package org.fbme.lib.iec61131.service
 import org.fbme.lib.iec61131.converter.getDefaultValue
 import org.fbme.lib.iec61131.converter.ConverterArguments
 import org.fbme.lib.iec61131.converter.ConverterBase
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.iec61499.parser.STConverter
 import org.fbme.lib.st.expressions.Literal
 import org.fbme.lib.st.types.DataType
 import org.fbme.lib.st.types.ElementaryType
 
 class FbdVariableService(
-    private val xmlFbd: OldStandardXml.FBD,
-    xmlInterface: OldStandardXml.Interface,
+    private val xmlFbd: Iec61131Xml.FBD,
+    xmlInterface: Iec61131Xml.Interface,
     converterArguments: ConverterArguments
 ) : ConverterBase(converterArguments) {
     private val variableIdToNameMap = getVariableNameByIdMap()
     private val declaredOutVariables = getDeclaredOutVariables()
     private val elementaryTypes = HashSet(ElementaryType.values().map { it.name })
-    private val varList: List<OldStandardXml.VariableList.Variable>
+    private val varList: List<Iec61131Xml.VariableList.Variable>
 
     private val initVals: Map<String, String>
     val allVarTypes: Map<String, DataType>
 
     init {
-        val varLists = mutableListOf<OldStandardXml.VariableList>()
+        val varLists = mutableListOf<Iec61131Xml.VariableList>()
         varLists.addAll(xmlInterface.inputVars)
         varLists.addAll(xmlInterface.inOutVars)
         varLists.addAll(xmlInterface.outputVars)
@@ -47,7 +47,7 @@ class FbdVariableService(
     fun isVariableId(variableId: Long): Boolean = variableId in variableIdToNameMap.keys
     fun getAllDeclaredOutVariables() = declaredOutVariables
 
-    private fun getVariableType(variable: OldStandardXml.VariableList.Variable): DataType? {
+    private fun getVariableType(variable: Iec61131Xml.VariableList.Variable): DataType? {
         val typeName = variable.type.typeName
         if (typeName in elementaryTypes) {
             return ElementaryType.valueOf(typeName)
@@ -101,7 +101,7 @@ class FbdVariableService(
         return variables
     }
 
-    private fun getConnection(connectionPointIn: OldStandardXml.ConnectionPointIn?): OldStandardXml.Connection? {
+    private fun getConnection(connectionPointIn: Iec61131Xml.ConnectionPointIn?): Iec61131Xml.Connection? {
         if (connectionPointIn == null) {
             return null
         }
@@ -119,6 +119,6 @@ class FbdVariableService(
         val name: String,
         val x: Int,
         val y: Int,
-        val connection: OldStandardXml.Connection?
+        val connection: Iec61131Xml.Connection?
     )
 }

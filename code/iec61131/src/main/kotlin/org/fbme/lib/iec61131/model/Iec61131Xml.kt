@@ -10,12 +10,12 @@ import nl.adaptivity.xmlutil.serialization.XmlValue
 import kotlin.io.path.Path
 import kotlin.io.path.readText
 
-class OldStandardXml {
+class Iec61131Xml {
 
     companion object {
         fun serializeProject(path: String): Project {
             return XML {
-                policy = JacksonPolicy
+                policy = Iec61131XmlPolicy
             }.decodeFromString<Project>(Path(path).readText())
         }
     }

@@ -1,19 +1,17 @@
 package org.fbme.lib.iec61131.converter
 
 import org.fbme.lib.common.Declaration
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 import org.fbme.lib.iec61499.IEC61499Factory
 import org.fbme.lib.iec61499.declarations.CompositeFBTypeDeclaration
-import org.fbme.lib.iec61499.parser.STConverter
 import org.fbme.lib.st.STFactory
-import org.fbme.lib.st.expressions.Literal
 
 class ProjectConverter(
     private val factory: IEC61499Factory,
     private val stFactory: STFactory
 ) {
     fun getProjectNodes(path: String): List<Declaration> {
-        val project = OldStandardXml.serializeProject(path)
+        val project = Iec61131Xml.serializeProject(path)
         val blockInterfaceService = BlocksInterfaceInfo(project.types.pous)
         val converterArguments = ConverterArguments(factory, stFactory, blockInterfaceService)
         val resDeclarations = getChildNodes(converterArguments, project)
@@ -23,13 +21,13 @@ class ProjectConverter(
 
     private fun getChildNodes(
         converterArguments: ConverterArguments,
-        project: OldStandardXml.Project
+        project: Iec61131Xml.Project
     ): List<Declaration> {
         return project.types.pous.pouList.map { convertToCompositeFBType(it, converterArguments) }
     }
 
     private fun convertToCompositeFBType(
-        xmlPou: OldStandardXml.Pou,
+        xmlPou: Iec61131Xml.Pou,
         converterArguments: ConverterArguments
     ): CompositeFBTypeDeclaration {
         val fbdInfo = getFbdInfo(xmlPou)

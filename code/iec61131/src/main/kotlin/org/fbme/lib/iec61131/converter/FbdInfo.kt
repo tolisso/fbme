@@ -1,9 +1,9 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
+import org.fbme.lib.iec61131.model.Iec61131Xml
 
 class FbdInfo(
     val name: String,
-    val xmlFbd: OldStandardXml.FBD,
-    val xmlInterface: OldStandardXml.Interface,
+    val xmlFbd: Iec61131Xml.FBD,
+    val xmlInterface: Iec61131Xml.Interface,
 )
