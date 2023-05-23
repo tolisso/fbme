@@ -1,25 +1,23 @@
 package org.fbme.lib.iec61131.converter
 
-import org.fbme.lib.iec61131.model.OldStandardXml
 import org.fbme.lib.iec61131.service.*
 import org.fbme.lib.iec61499.fbnetwork.EntryKind
 import org.fbme.lib.iec61499.parser.STConverter
 import org.fbme.lib.st.types.ElementaryType
 import org.fbme.lib.st.types.GenericType
 
-class FbNetworkEventConverter(
-    xmlFbd: OldStandardXml.FBD,
-    xmlInterface: OldStandardXml.Interface,
+class FbTranslator(
+    val fbdInfo: FbdInfo,
     converterArguments: ConverterArguments,
     private var curEventOut: String,
     private val endEventIn: String?
 ) : ConverterBase(converterArguments) {
 
-    private val blockService = FbdBlockService(xmlFbd)
-    private val varService = FbdVariableService(xmlFbd, xmlInterface, converterArguments)
-    private val evaluationOrderService = FbdEvaluationOrderService(xmlFbd, xmlInterface, converterArguments)
-    private val inConnectionsService = BlockInConnectionsService(xmlFbd)
-    private val interfaceService = InterfaceService(xmlInterface)
+    private val blockService = FbdBlockService(fbdInfo.xmlFbd)
+    private val varService = FbdVariableService(fbdInfo.xmlFbd, fbdInfo.xmlInterface, converterArguments)
+    private val evaluationOrderService = FbdEvaluationOrderService(fbdInfo.xmlFbd, fbdInfo.xmlInterface, converterArguments)
+    private val inConnectionsService = BlockInConnectionsService(fbdInfo.xmlFbd)
+    private val interfaceService = InterfaceService(fbdInfo.xmlInterface)
     val networkConnections: List<NetworkPart>
     private val outputVariables = interfaceService.getInOutVariables() + interfaceService.getOutputVariables()
 
@@ -34,7 +32,6 @@ class FbNetworkEventConverter(
         interfaceService.getInputVariables().forEach { varNameToConnection[it] = it }
         interfaceService.getInOutVariables().forEach { varNameToConnection[it] = it }
         networkConnections = getConnections()
-
     }
 
     /**
@@ -106,7 +103,7 @@ class FbNetworkEventConverter(
             }
             varNameToConnection[varName]!!
         } else {
-            throw RuntimeException("not yet implemented")
+            throw Iec61131ConverterException(fbdInfo.name, "not yet implemented")
         }
         varNameToConnection[toVar.name] = connectionName
         if (toVar.name in outputVariables) {
@@ -148,7 +145,7 @@ class FbNetworkEventConverter(
                 val varType = connectionToType[connection]!!
                 typeMapper[parameter.type] = when(varType) {
                     is ElementaryType -> varType
-                    else -> throw RuntimeException("Var connected to generic input must be elementary type")
+                    else -> throw Iec61131ConverterException(fbdInfo.name, "Var connected to generic input must be elementary type")
                 }
             }
         }
@@ -158,7 +155,7 @@ class FbNetworkEventConverter(
                 connectionToType[connection] = when (parameter.type) {
                     is ElementaryType -> parameter.type
                     is GenericType -> typeMapper[parameter.type]!!
-                    else -> throw RuntimeException("Composite types are not supported")
+                    else -> throw Iec61131ConverterException(fbdInfo.name, "Composite types are not supported")
                 }
             }
         }

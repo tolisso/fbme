@@ -4,7 +4,9 @@ import org.fbme.lib.common.Declaration
 import org.fbme.lib.iec61131.model.OldStandardXml
 import org.fbme.lib.iec61499.IEC61499Factory
 import org.fbme.lib.iec61499.declarations.CompositeFBTypeDeclaration
+import org.fbme.lib.iec61499.parser.STConverter
 import org.fbme.lib.st.STFactory
+import org.fbme.lib.st.expressions.Literal
 
 class ProjectConverter(
     private val factory: IEC61499Factory,
@@ -16,7 +18,7 @@ class ProjectConverter(
         val converterArguments = ConverterArguments(factory, stFactory, blockInterfaceService)
         val resDeclarations = getChildNodes(converterArguments, project)
 
-        return resDeclarations + SystemConverter(project, converterArguments).createSystem()
+        return resDeclarations + SystemConverter(project, converterArguments).createSystems()
     }
 
     private fun getChildNodes(
@@ -30,17 +32,11 @@ class ProjectConverter(
         xmlPou: OldStandardXml.Pou,
         converterArguments: ConverterArguments
     ): CompositeFBTypeDeclaration {
-        val firstBody = xmlPou.bodyList.getOrNull(0)
-            ?: throw Iec61131ConverterException(xmlPou, "pou has no body", null)
-        val fbd = firstBody.fbd
-            ?: throw Iec61131ConverterException(xmlPou, "non fbd bodies are not supported yet", null)
-        val pouInterface = xmlPou.pouInterface
-            ?: throw Iec61131ConverterException(xmlPou, "pou has no interface", null)
-
+        val fbdInfo = getFbdInfo(xmlPou)
         val compositeFbtd = converterArguments.factory.createCompositeFBTypeDeclaration(null)
-        FbNetworkConverter(fbd, pouInterface, converterArguments, "REQ", "CNF")
+        FbNetworkConverter(fbdInfo, converterArguments, "REQ", "CNF")
             .fillNetwork(compositeFbtd.network)
-        FbtdInterfaceConverter(xmlPou, converterArguments).fillInterface(compositeFbtd)
+        FbInterfaceConverter(xmlPou, converterArguments).fillInterface(compositeFbtd)
         return compositeFbtd
     }
 }

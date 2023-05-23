@@ -6,16 +6,15 @@ import org.fbme.lib.iec61499.fbnetwork.*
 import kotlin.random.Random
 
 class FbNetworkConverter(
-    private val xmlFbd: OldStandardXml.FBD,
-    xmlInterface: OldStandardXml.Interface,
+    fbdInfo: FbdInfo,
     converterArguments: ConverterArguments,
     startEvent: String = "REQ",
     endEvent: String? = "CNF"
 ) : ConverterBase(converterArguments) {
 
     private val networkEventConverter =
-        FbNetworkEventConverter(xmlFbd, xmlInterface, converterArguments, startEvent, endEvent)
-    private val interfaceService = InterfaceService(xmlInterface)
+        FbTranslator(fbdInfo, converterArguments, startEvent, endEvent)
+    private val interfaceService = InterfaceService(fbdInfo.xmlInterface)
 
 
     // returns additional FBTypeDeclarations of variables

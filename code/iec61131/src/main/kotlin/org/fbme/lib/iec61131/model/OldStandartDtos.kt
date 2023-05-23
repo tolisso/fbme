@@ -59,8 +59,10 @@ class OldStandardXml {
 
     @Serializable
     class Task(
-        val pouInstanceList: List<PouInstance>
-        // ...
+        val pouInstanceList: List<PouInstance>,
+        val interval: String?,
+        val name: String
+    // ...
     )
 
     @Serializable

@@ -6,7 +6,7 @@ import org.fbme.lib.iec61499.declarations.FBTypeDeclaration
 import org.fbme.lib.iec61499.declarations.ParameterDeclaration
 import org.fbme.lib.iec61499.parser.STConverter
 
-class FbtdInterfaceConverter(
+class FbInterfaceConverter(
         private val xmlPou: OldStandardXml.Pou,
         converterArguments: ConverterArguments
 ) : ConverterBase(converterArguments) {
